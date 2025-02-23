@@ -1,7 +1,13 @@
-function TodoFilter() {
+import { Todo } from "../types/todo";
+interface setFilterProps {
+    setFilter: (type: string) => void;
+}
+function TodoFilter({ setFilter }: setFilterProps) {
     return (
         <div>
-            <h1>Todo Filter</h1>
+            <button onClick={() => setFilter("all")}>All</button>
+            <button onClick={() => setFilter("todo")}>Todo</button>
+            <button onClick={() => setFilter("done")}>Done</button>
         </div>
     );
 }

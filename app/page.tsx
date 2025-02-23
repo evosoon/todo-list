@@ -4,13 +4,14 @@ import styles from "./page.module.css";
 import AddTodo from "../components/AddTodo";
 import TodoList from "../components/TodoList";
 import TodoFilter from "../components/TodoFilter";
-import { TodoItem } from "../types/todo";
+import { Todo } from "../types/todo";
 import { useState } from "react";
 
 export default function Home() {
-  const [todos, setTodos] = useState<TodoItem[]>([]);
+  const [todos, setTodos] = useState<Todo[]>([]);
+  const [filter, setFilter] = useState<string>('all');
   const addTodo = (text: string) => {
-    const newTodo:TodoItem = {
+    const newTodo:Todo = {
       id: Date.now(),
       text,
       done: false,
@@ -20,8 +21,8 @@ export default function Home() {
   const deleteTodo = (id: number) => {
     setTodos(todos.filter((todo) => todo.id !== id));
   }
-  const getFilteredTodos = (type: string) => {
-    switch (type) {
+  const getFilteredTodos = (type: string="all") => {
+    switch (filter) {
       case "all":
         return todos;
       case "done":
@@ -47,8 +48,8 @@ export default function Home() {
   return (
    <>
    <AddTodo addTodo={addTodo} />
-   {/* <TodoList todos={getFilteredTodos("all")} deleteTodo={deleteTodo} toggleTodo={toggleTodo} /> */}
-   {/* <TodoFilter getFilteredTodos={getFilteredTodos} /> */}
+   <TodoList todos={getFilteredTodos()} deleteTodo={deleteTodo} toggleTodo={toggleTodo} />
+   <TodoFilter setFilter={setFilter} />
    </>
   );
 }

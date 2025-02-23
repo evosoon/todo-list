@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { TodoItem } from '../types/todo';
 interface AddTodoProps {
     addTodo: (text: string) => void;
 }
