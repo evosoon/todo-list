@@ -20,6 +20,16 @@ export default function Home() {
   const deleteTodo = (id: number) => {
     setTodos(todos.filter((todo) => todo.id !== id));
   }
+  const editTodo = (id: number, text: string) => {
+    setTodos(
+      todos.map((todo) => {
+        if (todo.id === id) {
+          return { ...todo, text };
+        }
+        return todo;
+      })
+    );
+  }
   const getFilteredTodos = (type: string="all") => {
     switch (filter) {
       case "all":
@@ -50,7 +60,7 @@ export default function Home() {
         <h1 className="todo-title">待办事项</h1>
         <div className="todo-content">
           <AddTodo addTodo={addTodo} />
-          <TodoList todos={getFilteredTodos()} deleteTodo={deleteTodo} toggleTodo={toggleTodo} />
+          <TodoList todos={getFilteredTodos()} editTodo={editTodo} deleteTodo={deleteTodo} toggleTodo={toggleTodo} />
           <TodoFilter setFilter={setFilter} />
         </div>
       </div>

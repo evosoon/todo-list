@@ -3,10 +3,11 @@ import TodoItem from "../components/TodoItem";
 import './TodoList.css';
 interface TodoListProps {
     todos: Todo[];
+    editTodo:(id: number, text: string) => void;
     deleteTodo: (id: number) => void;
     toggleTodo: (id: number) => void;
 }
-function TodoList({ todos, deleteTodo, toggleTodo }: TodoListProps) {
+function TodoList({ todos,editTodo, deleteTodo, toggleTodo }: TodoListProps) {
     if (todos.length === 0) {
         return (
             <div className="empty-message">
@@ -21,6 +22,7 @@ function TodoList({ todos, deleteTodo, toggleTodo }: TodoListProps) {
                 <TodoItem 
                     key={todo.id} 
                     todo={todo} 
+                    editTodo={editTodo}
                     deleteTodo={deleteTodo} 
                     toggleTodo={toggleTodo} 
                 />
