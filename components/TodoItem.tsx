@@ -1,4 +1,5 @@
 import { Todo } from "../types/todo";
+import './TodoItem.css';
 interface TodoItemProps {
     todo: Todo;
     deleteTodo: (id: number) => void;
@@ -6,10 +7,22 @@ interface TodoItemProps {
 }
 function TodoItem({ todo, deleteTodo, toggleTodo }: TodoItemProps) {
     return (
-        <li>
-            <input type="checkbox" checked={todo.done} onChange={() => toggleTodo(todo.id)} />
-            <span style={{ textDecoration: todo.done ? "line-through" : "none" }}>{todo.text}</span>
-            <button onClick={() => deleteTodo(todo.id)}>Delete</button>
+        <li className="todo-item">
+            <input 
+                type="checkbox" 
+                checked={todo.done} 
+                onChange={() => toggleTodo(todo.id)} 
+                className="todo-checkbox"
+            />
+            <span className={`todo-text ${todo.done ? 'done' : ''}`}>
+                {todo.text}
+            </span>
+            <button 
+                onClick={() => deleteTodo(todo.id)} 
+                className="delete-button"
+            >
+                删除
+            </button>
         </li>
     );
 }

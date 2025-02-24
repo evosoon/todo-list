@@ -1,11 +1,10 @@
 "use client"
-import Image from "next/image";
-import styles from "./page.module.css";
 import AddTodo from "../components/AddTodo";
 import TodoList from "../components/TodoList";
 import TodoFilter from "../components/TodoFilter";
 import { Todo } from "../types/todo";
 import { useState } from "react";
+import './page.css';
 
 export default function Home() {
   const [todos, setTodos] = useState<Todo[]>([]);
@@ -46,10 +45,15 @@ export default function Home() {
     );
   }
   return (
-   <>
-   <AddTodo addTodo={addTodo} />
-   <TodoList todos={getFilteredTodos()} deleteTodo={deleteTodo} toggleTodo={toggleTodo} />
-   <TodoFilter setFilter={setFilter} />
-   </>
+    <div className="container">
+      <div className="todo-card">
+        <h1 className="todo-title">待办事项</h1>
+        <div className="todo-content">
+          <AddTodo addTodo={addTodo} />
+          <TodoList todos={getFilteredTodos()} deleteTodo={deleteTodo} toggleTodo={toggleTodo} />
+          <TodoFilter setFilter={setFilter} />
+        </div>
+      </div>
+    </div>
   );
 }
