@@ -1,13 +1,14 @@
 import { Todo } from "../types/todo";
 import { useState } from 'react';
 import './TodoFilter.css';
+import { FilterType } from "@/app/page";
 interface setFilterProps {
-    setFilter: (type: string) => void;
+    setFilter: (type: FilterType) => void;
 }
 function TodoFilter({ setFilter }: setFilterProps) {
-    const [activeFilter, setActiveFilter] = useState('all');
+    const [activeFilter, setActiveFilter] = useState<FilterType>(FilterType.ALL);
 
-    const handleFilterClick = (filter: string) => {
+    const handleFilterClick = (filter: FilterType) => {
         setActiveFilter(filter);
         setFilter(filter);
     };
@@ -15,20 +16,20 @@ function TodoFilter({ setFilter }: setFilterProps) {
     return (
         <div className="filter-container">
             <button 
-                onClick={() => handleFilterClick("all")} 
-                className={`filter-button ${activeFilter === 'all' ? 'active' : ''}`}
+                onClick={() => handleFilterClick(FilterType.ALL)} 
+                className={`filter-button ${activeFilter === FilterType.ALL ? 'active' : ''}`}
             >
                 全部
             </button>
             <button 
-                onClick={() => handleFilterClick("todo")} 
-                className={`filter-button ${activeFilter === 'todo' ? 'active' : ''}`}
+                onClick={() => handleFilterClick(FilterType.TODO)} 
+                className={`filter-button ${activeFilter === FilterType.TODO ? 'active' : ''}`}
             >
                 未完成
             </button>
             <button 
-                onClick={() => handleFilterClick("done")} 
-                className={`filter-button ${activeFilter === 'done' ? 'active' : ''}`}
+                onClick={() => handleFilterClick(FilterType.DONE)} 
+                className={`filter-button ${activeFilter === FilterType.DONE ? 'active' : ''}`}
             >
                 已完成
             </button>

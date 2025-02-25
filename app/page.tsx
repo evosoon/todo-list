@@ -1,66 +1,61 @@
 "use client"
+import { useCallback, useMemo } from 'react';
 import AddTodo from "../components/AddTodo";
 import TodoList from "../components/TodoList";
 import TodoFilter from "../components/TodoFilter";
 import { Todo } from "../types/todo";
-import { useState } from "react";
+import { useTodos } from "../hooks/useTodos";
 import './page.css';
 
+export enum FilterType {
+  ALL = 'all',
+  DONE = 'done',
+  TODO = 'todo'
+}
+
 export default function Home() {
-  const [todos, setTodos] = useState<Todo[]>([]);
-  const [filter, setFilter] = useState<string>('all');
-  const addTodo = (text: string) => {
-    const newTodo:Todo = {
-      id: Date.now(),
-      text,
-      done: false,
-    };
-    setTodos([...todos, newTodo]);
-  };
-  const deleteTodo = (id: number) => {
-    setTodos(todos.filter((todo) => todo.id !== id));
-  }
-  const editTodo = (id: number, text: string) => {
-    setTodos(
-      todos.map((todo) => {
-        if (todo.id === id) {
-          return { ...todo, text };
-        }
-        return todo;
-      })
-    );
-  }
-  const getFilteredTodos = (type: string="all") => {
+  const {
+    todos,
+    addTodo,
+    deleteTodo,
+    editTodo,
+    toggleTodo,
+    filter,
+    setFilter
+  } = useTodos();
+
+  const filteredTodos = useMemo(() => {
     switch (filter) {
-      case "all":
-        return todos;
-      case "done":
+      case FilterType.DONE:
         return todos.filter((todo) => todo.done);
-      case "todo":
+      case FilterType.TODO:
         return todos.filter((todo) => !todo.done);
+      case FilterType.ALL:
       default:
         return todos;
     }
+  }, [todos, filter]);
 
-  }
-  const toggleTodo = (id: number) => {
-    setTodos(
-      todos.map((todo) => {
-        if (todo.id === id) {
-          return { ...todo, done: !todo.done };
-        } else {
-          return todo;
-        }
-      })
-    );
-  }
+  const handleAddTodo = useCallback((text: string) => {
+    addTodo(text.trim());
+  }, [addTodo]);
+
+  const handleEditTodo = useCallback((id: number, text: string) => {
+    editTodo(id, text.trim());
+  }, [editTodo]);
+
   return (
     <div className="container">
       <div className="todo-card">
         <h1 className="todo-title">待办事项</h1>
         <div className="todo-content">
-          <AddTodo addTodo={addTodo} />
-          <TodoList todos={getFilteredTodos()} editTodo={editTodo} deleteTodo={deleteTodo} toggleTodo={toggleTodo} />
+          <AddTodo addTodo={handleAddTodo} />
+          <TodoList 
+            todos={filteredTodos}
+            editTodo={handleEditTodo}
+            deleteTodo={deleteTodo}
+            toggleTodo={toggleTodo}
+          />
           <TodoFilter setFilter={setFilter} />
         </div>
       </div>
